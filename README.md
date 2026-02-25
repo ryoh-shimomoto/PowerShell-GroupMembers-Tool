@@ -143,3 +143,58 @@ taisuke.hosokawa@jp.ricoh.com
 
 ### JSON形式
 ```json
+[
+  "akie.maeda@jp.ricoh.com",
+  "kenji_sakamoto@jp.ricoh.com",
+  "taisuke.hosokawa@jp.ricoh.com"
+]
+```
+
+## 高度な使用例
+
+### 複合条件での実行
+
+```powershell
+.\src\Get-FlattenedGroupMembers.ps1 `
+    -Inputs @("team1@company.com", "田中太郎", "team2@company.com") `
+    -ExcludeExternal `
+    -OnlyActiveUsers `
+    -MaxDepth 8 `
+    -LogLevel Info
+```
+
+### バッチ処理
+
+```powershell
+$inputs = @("team1@company.com", "田中太郎", "team2@company.com")
+$allEmails = .\src\Get-FlattenedGroupMembers.ps1 -Inputs $inputs
+$uniqueEmails = $allEmails | Sort-Object | Get-Unique
+$uniqueEmails | Export-Csv -Path "all_team_emails.csv" -NoTypeInformation
+```
+
+### エラーハンドリング付きの実行
+
+```powershell
+try {
+    $emails = .\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team@company.com", "田中太郎") -LogLevel Info
+    Write-Host "成功: $($emails.Count) 個のメールアドレスを取得しました"
+    
+    # 統計情報を表示
+    $domains = $emails | ForEach-Object { ($_ -split '@')[1] } | Group-Object | Sort-Object Count -Descending
+    Write-Host "ドメイン別統計:"
+    $domains | ForEach-Object { Write-Host "  $($_.Name): $($_.Count) 個" }
+    
+} catch {
+    Write-Error "エラーが発生しました: $($_.Exception.Message)"
+}
+```
+
+## トラブルシューティング
+
+### よくある問題と解決方法
+
+#### 1. "Outlook COM接続に失敗しました"
+
+**解決方法:**
+- Microsoft Outlookがインストールされているか確認
+- Outlookが正しく設定されているか確認
