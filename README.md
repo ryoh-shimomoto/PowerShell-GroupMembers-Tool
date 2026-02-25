@@ -123,3 +123,18 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ## 出力例
 
+### Array形式（デフォルト）
+```
+akie.maeda@jp.ricoh.com
+kenji_sakamoto@jp.ricoh.com
+taisuke.hosokawa@jp.ricoh.com
+shingo.tamura@jp.ricoh.com
+...
+```
+
+### CSV形式
+```csv
+EmailAddress
+akie.maeda@jp.ricoh.com
+kenji_sakamoto@jp.ricoh.com
+taisuke.hosokawa@jp.ricoh.com
