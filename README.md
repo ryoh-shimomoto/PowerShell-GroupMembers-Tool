@@ -98,3 +98,28 @@ Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
 
 ## 実際の使用例
 
+### 混合入力の実行例
+
+```powershell
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @(
+    'Maeda Akie （前田 明恵）',
+    'Ienaka Michinori （家中 孔憲）',
+    'Sakamoto Kenji （坂本 賢治）',
+    'RSI利用テーマのPM/設計L',
+    'Noah developers',
+    'RiDP Toolbox Team',
+    'zjp_legal_doc_align_poc_v2@jp.ricoh.com',
+    'ryoh.shimomoto@jp.ricoh.com'
+) -LogLevel Info
+```
+
+**実行結果:**
+- 入力数: 8個
+- 解決成功: 7個（87.5%）
+- 最終出力: 354個のユニークなメールアドレス
+- 処理時間: 約39秒
+
+詳細な実行例は [`examples/mixed-input-example.md`](examples/mixed-input-example.md) を参照してください。
+
+## 出力例
+
