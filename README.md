@@ -48,3 +48,53 @@ Outlookのグループアドレス（配布リスト）を再帰的に展開し�
 
 ```powershell
 Get-ExecutionPolicy
+Set-ExecutionPolicy -ExecutionPolicy RemoteSigned -Scope CurrentUser
+```
+
+## 基本的な使用方法
+
+### v3.0統一構文
+
+```powershell
+# 単一グループの展開
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team@company.com")
+
+# 複数グループの展開
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team1@company.com", "team2@company.com")
+
+# 混合入力の処理（v3.0の新機能）
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("田中太郎", "team@company.com", "john.doe@company.com")
+
+# 日本語名の処理
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("田中 太郎", "佐藤 花子 （営業部）", "山田 次郎")
+```
+
+### オプション付きの実行
+
+```powershell
+# 外部メールアドレスを除外
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("all-staff@company.com") -ExcludeExternal
+
+# アクティブユーザーのみを含める
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team@company.com") -OnlyActiveUsers
+
+# CSV形式で出力
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team@company.com") -OutputFormat CSV | Out-File "emails.csv"
+
+# 詳細ログを有効にする
+.\src\Get-FlattenedGroupMembers.ps1 -Inputs @("team@company.com") -LogLevel Debug
+```
+
+## パラメータ
+
+| パラメータ | 型 | 必須 | 説明 |
+|-----------|----|----|------|
+| `Inputs` | string[] | ○ | 処理する入力のリスト（個人名、グループ名、メールアドレス） |
+| `MaxDepth` | int | × | 再帰展開の最大深度（デフォルト: 10） |
+| `ExcludeExternal` | switch | × | 外部メールアドレスを除外 |
+| `OnlyActiveUsers` | switch | × | アクティブなユーザーのみを含める |
+| `OutputFormat` | string | × | 出力形式（Array, CSV, JSON）（デフォルト: Array） |
+| `LogLevel` | string | × | ログレベル（None, Error, Warning, Info, Debug）（デフォルト: Info） |
+
+## 実際の使用例
+
