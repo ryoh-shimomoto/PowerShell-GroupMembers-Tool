@@ -138,3 +138,8 @@ EmailAddress
 akie.maeda@jp.ricoh.com
 kenji_sakamoto@jp.ricoh.com
 taisuke.hosokawa@jp.ricoh.com
+...
+```
+
+### JSON形式
+```json
